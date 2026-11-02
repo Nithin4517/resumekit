@@ -1,0 +1,47 @@
+# Fictional example profile. Copy to my_profile.yaml (gitignored) and fill in your own.
+name: Jordan Example
+headline: Systems Administrator
+contact:
+  - "(555) 010-0000"
+  - jordan.example@example.com
+  - Springfield, USA
+
+summary:
+  - "Systems Administrator with five years of experience running identity, endpoint and cloud platforms for mid-size organizations."
+  - "Comfortable administering **Active Directory**, **Microsoft 365** and **Intune** for several hundred users across multiple sites."
+  - "Writes **PowerShell** automation to remove repetitive admin work and documents every change in the ticketing system."
+  - "Clear communicator who explains technical issues to non-technical staff and follows incidents through to root cause."
+
+skills:
+  Identity & Access: Active Directory, Microsoft Entra ID, group policy, onboarding/offboarding
+  Microsoft 365: Exchange Online, Teams, SharePoint, OneDrive, licensing
+  Endpoint Management: Intune, Windows imaging, patching, BitLocker
+  Scripting: PowerShell, Bash
+  Networking: DNS, DHCP, VPN, LAN/WAN troubleshooting
+
+certifications:
+  - Example Certification (replace with your own)
+
+experience:
+  - company: Acme Corp
+    title: Systems Administrator
+    dates: Jan 2022 – Present
+    location: Springfield, USA
+    bullets:
+      - "Administer **Active Directory** and **Microsoft Entra ID** for 600 users across four offices, handling provisioning, security groups and access reviews."
+      - "Manage **Intune** device enrollment and compliance policies for Windows laptops and mobile devices."
+      - "Automate account onboarding with **PowerShell**, cutting setup time from an hour to ten minutes per hire."
+  - company: Globex Inc
+    title: IT Support Specialist
+    dates: Jun 2019 – Dec 2021
+    location: Shelbyville, USA
+    bullets:
+      - "Resolved 40+ tickets a week in **ServiceNow** covering hardware, software and access requests."
+      - "Imaged and deployed 200 Windows workstations during a hardware refresh with zero missed go-live dates."
+      - "Wrote knowledge-base articles that reduced repeat password-reset tickets by a third."
+
+education:
+  - school: State University
+    degree: B.S. in Information Technology
+    dates: 2015 – 2019
+    location: Springfield, USA

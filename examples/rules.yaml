@@ -1,0 +1,11 @@
+# Lint rules: things you never want on a resume, plus shape limits.
+banned:
+  - '\bSCCM\b'          # tools you haven't used
+  - 'Kubernetes'
+  - 'Security\+'        # certifications you don't hold
+  - 'synergy'           # words you hate
+min_words: 150
+max_words: 1100
+summary_bullets: [3, 6]
+bullets_per_role: [3, 8]
+require_past_tense: true
