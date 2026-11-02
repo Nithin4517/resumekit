@@ -50,6 +50,7 @@ def _texts(data: dict):
 
 def lint(data: dict, rules: dict | None = None) -> list[str]:
     r = {**DEFAULT_RULES, **(rules or {})}
+    r["banned"] = list(r["banned"]) + [re.escape(t) for t in data.get("never_claim", [])]
     probs = []
     for where, text in _texts(data):
         for pat in r["banned"]:

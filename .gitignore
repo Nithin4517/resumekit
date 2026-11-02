@@ -10,3 +10,12 @@ __pycache__/
 .pytest_cache/
 build/
 dist/
+JobSearch/
+profile/
+masters/
+resumes/
+jds/
+Job_Dashboard*.html
+!dashboard/Job_Dashboard.html
+dashboard_sync_checkpoint.json
+*.bak

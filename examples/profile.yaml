@@ -45,3 +45,14 @@ education:
     degree: B.S. in Information Technology
     dates: 2015 – 2019
     location: Springfield, USA
+
+# Not printed. Used to screen jobs and block claims.
+preferences:
+  work_authorization: US citizen
+  needs_sponsorship: false
+  relocate: [Dallas, Austin]
+  pay_floor_remote: 25/hr
+  pay_floor_relocate: 30/hr
+never_claim:
+  - Kubernetes
+  - SCCM

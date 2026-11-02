@@ -52,3 +52,30 @@ def test_screen_ranks_rare_tokens():
     r = screen(["Initech LLC", "Northside Credit Union", "Brand New Co"], corpus)
     assert r["Initech LLC"]["verdict"] == "DUPLICATE"
     assert r["Brand New Co"]["verdict"] == "CLEAR"
+
+
+def test_never_claim_from_profile():
+    data = profile()
+    data["summary"].append("Expert in Kubernetes clusters.")
+    assert any("Kubernetes" in p for p in lint(data, {"min_words": 0}))
+
+
+def test_dashboard_roundtrip(tmp_path):
+    import json, subprocess, sys
+    tool = os.path.join(HERE, "..", "dashboard", "dashboard.py")
+    run = lambda *a: subprocess.run([sys.executable, tool, *a], capture_output=True, text=True, check=True).stdout
+    run("init", str(tmp_path))
+    dash = str(tmp_path / "Job_Dashboard.html")
+    rows = tmp_path / "rows.json"
+    rows.write_text(json.dumps([
+        {"date": "2026-11-01", "role": "Systems Administrator", "company": "Initech", "location": "Dallas, TX"},
+        {"date": "2026-11-02", "role": "IT Support", "company": "Umbrella Health", "location": "Remote"},
+        {"date": "2026-11-02", "role": "IT Support", "company": "Umbrella Health", "location": "Remote"},
+    ]))
+    assert "added 2" in run("add", dash, str(rows))
+    run("setstatus", dash, "1", "Interview - Nov 5", "--gmail", "abc123")
+    run("setstatus", dash, "1", "Rejected")
+    assert "DUPLICATE" in run("check", dash, "Initech LLC")
+    assert "rows: 2" in run("stats", dash)
+    html = open(dash).read()
+    assert '"reachedStage": "Interview"' in html and "#all/abc123" in html

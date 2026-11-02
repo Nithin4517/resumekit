@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Application Dashboard</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16181d;--muted:#5f6673;--line:#e3e6eb;--accent:#1f4e79;
+--pending:#6b7280;--interview:#1d7a46;--assess:#a15c00;--action:#b42318;--rejected:#9aa1ac;--offer:#6d28d9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a20;--ink:#e8eaee;--muted:#9aa1ac;--line:#262a33;--accent:#7fb2e5;--rejected:#5f6673}}
+:root[data-theme="dark"]{--bg:#0f1115;--card:#171a20;--ink:#e8eaee;--muted:#9aa1ac;--line:#262a33;--accent:#7fb2e5;--rejected:#5f6673}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 16px 48px}
+h1{margin:0 0 4px;font-size:22px}
+.sub{color:var(--muted);margin-bottom:20px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer}
+.tile.on{outline:2px solid var(--accent)}
+.tile b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.tile span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+input,select{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit}
+input{flex:1;min-width:200px}
+.tbl{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--card)}
+tr:last-child td{border-bottom:0}
+td.n{color:var(--muted);font-variant-numeric:tabular-nums}
+.chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;color:#fff;white-space:nowrap}
+a{color:var(--accent)}
+.foot{color:var(--muted);font-size:12px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Job Application Dashboard</h1>
+  <div class="sub" id="sub"></div>
+  <div class="tiles" id="tiles"></div>
+  <div class="bar">
+    <input id="q" placeholder="Search company, role or location…">
+    <select id="days"><option value="0">All time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th data-k="number">#</th><th data-k="date">Date</th><th data-k="role">Role</th><th data-k="company">Company</th><th data-k="location">Location</th><th data-k="status">Status</th><th>Email</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <div class="foot">Updated by Claude from your Gmail. Say “update dashboard” in your Claude chat to sync.</div>
+</div>
+<script>
+/* Each row: {"number":1,"date":"YYYY-MM-DD","role":"","company":"","location":"","status":"Pending (Application Confirmed Sent)","gmailLink":""}
+   Edit only through dashboard.py so this block stays valid JSON. */
+const DATA = /*DATA_START*/[]/*DATA_END*/;
+
+const GROUPS=[
+  ["All",()=>true,"var(--accent)"],
+  ["Pending",s=>/^pending/i.test(s),"var(--pending)"],
+  ["Interview",s=>/^interview/i.test(s),"var(--interview)"],
+  ["Assessment",s=>/^assessment/i.test(s),"var(--assess)"],
+  ["Action Required",s=>/^action/i.test(s),"var(--action)"],
+  ["Offer",s=>/^offer/i.test(s),"var(--offer)"],
+  ["Rejected",s=>/^(rejected|closed|not selected)/i.test(s),"var(--rejected)"],
+];
+let group="All",sortK="number",sortDir=-1;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const color=s=>(GROUPS.slice(1).find(g=>g[1](s))||[0,0,"var(--pending)"])[2];
+
+function render(){
+  const q=$("q").value.toLowerCase(), days=+$("days").value;
+  const cutoff=days?new Date(Date.now()-days*864e5).toISOString().slice(0,10):"";
+  const base=DATA.filter(r=>(!cutoff||r.date>=cutoff)&&(!q||[r.company,r.role,r.location].join(" ").toLowerCase().includes(q)));
+  $("tiles").innerHTML=GROUPS.map(([name,fn])=>`<div class="tile${name===group?" on":""}" data-g="${name}"><b>${base.filter(r=>fn(r.status||"")).length}</b><span>${name}</span></div>`).join("");
+  const fn=GROUPS.find(g=>g[0]===group)[1];
+  const rows=base.filter(r=>fn(r.status||"")).sort((a,b)=>(a[sortK]>b[sortK]?1:a[sortK]<b[sortK]?-1:0)*sortDir);
+  $("rows").innerHTML=rows.map(r=>`<tr><td class="n">${r.number}</td><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td>${esc(r.company)}</td><td>${esc(r.location)}</td><td><span class="chip" style="background:${color(r.status||"")}">${esc(r.status)}</span></td><td>${r.gmailLink?`<a href="${esc(r.gmailLink)}" target="_blank" rel="noopener">open</a>`:""}</td></tr>`).join("")||`<tr><td colspan="7" style="color:var(--muted)">No applications yet.</td></tr>`;
+  const dates=DATA.map(r=>r.date).sort();
+  $("sub").textContent=DATA.length?`${DATA.length} applications · ${dates[0]} to ${dates[dates.length-1]}`:"No applications yet";
+}
+$("tiles").addEventListener("click",e=>{const t=e.target.closest(".tile");if(t){group=t.dataset.g;render();}});
+document.querySelectorAll("th[data-k]").forEach(th=>th.addEventListener("click",()=>{const k=th.dataset.k;sortDir=sortK===k?-sortDir:-1;sortK=k;render();}));
+$("q").addEventListener("input",render);$("days").addEventListener("change",render);
+render();
+</script>
+</body>
+</html>

@@ -1,6 +1,26 @@
 # resumekit
 
-Tailor, build and check ATS-friendly `.docx` resumes from a single YAML profile.
+Tailor, build and check ATS-friendly `.docx` resumes from a single YAML profile, with a
+guided Claude workflow that takes you from "here's my background" to tailored resumes and a
+self-updating application dashboard.
+
+> **Job seeker, not a developer?** Read **[GETTING_STARTED.md](GETTING_STARTED.md)**. You
+> paste one line into Claude and it walks you through everything.
+
+## The workflow
+
+1. **Profile:** upload your resume, answer questions, or paste 5 jobs you want
+2. **3 master resumes:** main target, hybrid, safety lane
+3. **JobSearch folder:** everything saved on your computer
+4. **Gmail:** connected so applications are tracked automatically
+5. **Dashboard:** `Job_Dashboard.html`, color-coded by status
+6. **Paste job descriptions:** each is screened, then tailored, checked and saved
+
+The Claude instructions live in [`CLAUDE.md`](CLAUDE.md) and [`.claude/skills/`](.claude/skills).
+
+![Example dashboard](docs/dashboard.png)
+
+## The toolkit
 
 Applying to many jobs means making many slightly different resumes. `resumekit` keeps your
 real history in one profile file, lets you write small per-job override files, and catches the
@@ -15,7 +35,7 @@ mistakes that slip in when you're on resume number forty:
 - **screen**: before tailoring, check whether you've already applied to that company, with
   rarity-ranked fuzzy matching so "Credit Union" doesn't flag every credit union
 
-![Example output](docs/example.png)
+![Example resume](docs/example.png)
 
 ## Install
 
@@ -87,6 +107,16 @@ require_past_tense: true             # roles whose dates don't say "Present"
 
 ```bash
 resumekit bold out/Resume_Acme.docx "ServiceNow" "Intune" "PowerShell" --max 3
+```
+
+### Application dashboard
+
+```bash
+python3 dashboard/dashboard.py init ~/Desktop/JobSearch
+python3 dashboard/dashboard.py add ~/Desktop/JobSearch/Job_Dashboard.html rows.json
+python3 dashboard/dashboard.py setstatus ~/Desktop/JobSearch/Job_Dashboard.html 12 "Interview - Nov 5 2pm"
+python3 dashboard/dashboard.py check ~/Desktop/JobSearch/Job_Dashboard.html "Acme Corp"
+python3 dashboard/dashboard.py stats ~/Desktop/JobSearch/Job_Dashboard.html
 ```
 
 ### Duplicate-application screen
