@@ -1,0 +1,52 @@
+# Your job conditions. Claude asks these FIRST, before building anything, and checks
+# every job description against them. Nothing in this file is printed on a resume.
+#
+# Copy to profile/conditions.yaml in your JobSearch folder (Claude does this for you).
+# Change any answer at any time by telling Claude, e.g. "change my remote pay floor to $28".
+
+work_authorization:
+  # us_citizen | green_card | h1b | f1_opt | f1_stem_opt | f1_cpt | ead | other
+  status: f1_cpt
+  details: "Day 1 CPT, enrolled in an MBA program"   # free text, for screening only
+  needs_sponsorship: false        # true = skip "no sponsorship" postings
+  degree_related_only: true       # CPT/OPT: the job must be related to your degree program
+  degree_program: "Business Administration"
+
+security_clearance:
+  # none | public_trust | secret | top_secret | ts_sci
+  held: none
+  # With "none", any posting that requires a clearance, US citizenship, "US Person"/ITAR,
+  # or an adjudicated background (CJIS, public trust) as a condition of the offer is skipped.
+
+location:
+  home_city: "Springfield"
+  home_state: IL
+  us_only: true                   # skip jobs based outside the United States
+  remote: true                    # fully remote US jobs are OK
+  hybrid_or_onsite_near_home: true
+  # anywhere_us | list | no
+  relocate: anywhere_us
+  relocate_to: []                 # used when relocate: list, e.g. ["Dallas, TX", "Denver, CO"]
+  field_roles_ok: false           # false = skip field tech / driving between customer sites
+
+pay:
+  # Lowest pay you'll accept. Judged against the TOP of the posted range.
+  # Yearly figures are converted at 2,080 hours. A posting with no pay listed is NOT skipped.
+  floor_remote: 25/hr
+  floor_near_home: 25/hr
+  floor_relocation: 30/hr
+
+target:
+  lanes:                          # used for the 3 master resumes, best first
+    - Systems Administrator
+    - Systems Administrator / IT Support
+    - IT Support Specialist
+  skip_role_types:                # never build for these, whatever the title says
+    - sales
+    - marketing
+    - retail floor
+  min_match_percent: 85           # don't build a resume below this JD match
+
+never_claim:                      # skills/tools you DON'T have; never put on a resume
+  - SCCM
+  - Kubernetes

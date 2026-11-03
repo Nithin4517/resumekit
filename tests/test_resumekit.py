@@ -79,3 +79,27 @@ def test_dashboard_roundtrip(tmp_path):
     assert "rows: 2" in run("stats", dash)
     html = open(dash).read()
     assert '"reachedStage": "Interview"' in html and "#all/abc123" in html
+
+
+def test_pay_parse_and_gate():
+    from resumekit.conditions import parse_pay, pay_gate
+    cond = load_file(os.path.join(EX, "conditions.yaml"))
+    assert parse_pay("Pay: $26-$29/hr") == 29
+    assert parse_pay("Salary $55,000 - $60,000 per year") == round(60000 / 2080, 2)
+    assert parse_pay("$25.00 per hour") == 25
+    assert parse_pay("No pay listed, 401k and 3 weeks PTO") is None
+    assert pay_gate(cond, "$26-$29/hr", "relocation")["verdict"] == "SKIP"
+    assert pay_gate(cond, "$26-$32/hr", "relocation")["verdict"] == "PASS"
+    assert pay_gate(cond, "$22-$28/hr", "remote")["verdict"] == "PASS"
+    assert pay_gate(cond, "$19-$24/hr", "remote")["verdict"] == "SKIP"
+    assert pay_gate(cond, "Competitive pay", "remote")["verdict"] == "PASS"
+
+
+def test_scan_jd_flags_by_person():
+    from resumekit.conditions import scan_jd
+    cond = load_file(os.path.join(EX, "conditions.yaml"))
+    jd = "Must be a US citizen. Active Secret clearance required. We will not sponsor visas. No OPT or CPT candidates."
+    f = scan_jd(jd, cond)
+    assert {"clearance", "citizenship", "student_visa"} <= set(f)
+    citizen = {"work_authorization": {"status": "us_citizen"}, "security_clearance": {"held": "secret"}}
+    assert scan_jd(jd, citizen) == {}

@@ -46,13 +46,8 @@ education:
     dates: 2015 – 2019
     location: Springfield, USA
 
-# Not printed. Used to screen jobs and block claims.
-preferences:
-  work_authorization: US citizen
-  needs_sponsorship: false
-  relocate: [Dallas, Austin]
-  pay_floor_remote: 25/hr
-  pay_floor_relocate: 30/hr
+# Not printed. Job conditions (work permit, clearance, pay, location) live in conditions.yaml.
+# never_claim is also checked by lint: these words can never appear on a resume.
 never_claim:
   - Kubernetes
   - SCCM

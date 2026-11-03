@@ -1,90 +1,158 @@
-# Getting started (no coding needed)
+# Getting started (step by step, no coding needed)
 
-Claude walks you through everything. You answer questions and paste job descriptions; Claude
-builds your resumes and keeps a dashboard of your applications.
+You answer a few questions and paste job descriptions. Claude screens every job against **your
+conditions** (work permit, clearance, pay, location), builds tailored resumes only for the
+jobs you can actually take, and keeps a dashboard of your applications.
 
-## What you need
+Pick **one** of the two ways below. **Way 1 is easiest.** Way 2 is for people who already use
+git and a terminal.
 
-- A **Claude** account, using the **Claude desktop app** (best, because it can save files to a
-  folder on your computer).
-- A **Gmail** account you apply to jobs from (optional, but it makes the dashboard automatic).
-- About **20 minutes** for the first setup.
+---
 
-## 1. Start a chat and paste this
+## What you need (both ways)
 
-Open Claude, start a new chat, and paste:
+- A **Claude** account (Pro or higher works best for long sessions).
+- A **GitHub** account (free) so Claude can read this project.
+- A **Gmail** you apply to jobs from (optional, makes the dashboard automatic).
+- About **25 minutes** for the first setup.
 
+---
+
+## Way 1: Claude desktop app (recommended)
+
+### Step 1. Install the Claude desktop app
+Download it from **claude.ai/download**, install it, and sign in.
+
+### Step 2. Make your JobSearch folder
+On your **Desktop**, create a new folder named **`JobSearch`**. Everything Claude makes for you
+(resumes, dashboard, your answers) is saved here, on your computer only.
+
+### Step 3. Start a new chat and add the folder
+1. Open the Claude app and start a **new chat**.
+2. Click **+** (or **Add folder**) in the chat box and pick your **`JobSearch`** folder.
+
+### Step 4. Paste this exact message
 ```
 Set me up for my job search using github.com/Nithin4517/resumekit
 ```
+If Claude asks to connect GitHub, click allow. It only needs to read this public project.
 
-If Claude asks to connect GitHub, follow the prompt; it only needs to read this public project.
+### Step 5. Answer the condition questions (3 short rounds)
+Claude asks these **before it builds anything**. You click an answer or type your own.
 
-## 2. Answer Claude's questions
-
-Claude asks how you want to start:
-
-| Option | Choose it if |
+| Round | Questions |
 |---|---|
-| **Upload my resume** | You already have a resume (PDF or Word) |
-| **Answer questions** | No resume handy; Claude asks about your jobs, dates and duties |
-| **Paste 5 job descriptions** | You're new or unsure what to target; Claude works backward from jobs you want |
+| **1. Work permit & clearance** | US citizen / green card / F-1 (CPT, OPT, STEM-OPT) / H-1B? Your degree program (for CPT/OPT). Need sponsorship? Security clearance: none, public trust, Secret, Top Secret? |
+| **2. Location & work style** | Your city and state. Remote OK? Will you relocate (anywhere / certain cities / no)? Field jobs (driving to customer sites) OK? US jobs only? |
+| **3. Pay & targets** | Lowest pay for a remote job, a job near home, and a job you'd move for. Job titles you want (best first). Role types to never apply to (e.g. sales). Minimum match % (default 85%). Skills you **don't** have. |
 
-It also asks about work authorization, relocation, minimum pay, and skills you **don't** have
-(so they never end up on a resume).
+Claude shows a summary table of your answers. Fix anything wrong. You can change any answer
+later just by saying it, for example **"change my relocation pay to $32/hr"**.
 
-## 3. Review your 3 master resumes
+### Step 6. Give your background
+Pick one:
+- **Upload your resume** (PDF or Word), or
+- **Answer questions** about your jobs, dates and duties, or
+- **Paste 5 job descriptions** you'd like, if you're new or unsure what to target.
 
-Claude builds three base resumes, one per job lane, for example:
+### Step 7. Check your 3 master resumes
+Claude builds three base resumes: **main target**, **hybrid**, **safety lane**. Read them and
+tell Claude anything wrong. Every future resume is built from these.
 
-1. **Main target:** the job you want most
-2. **Hybrid:** main target plus a related role
-3. **Safety lane:** the role you're most sure to land
+### Step 8. Connect Gmail (optional but recommended)
+In Claude: **Settings → Connectors → Gmail → Connect**, sign in with the email you apply from.
 
-Tell Claude anything that's wrong. Every future resume is built from these.
+### Step 9. Paste jobs
+Go to **jobright.ai**, LinkedIn or Indeed. Copy the **full job description** (with company,
+location and pay) of up to 5 jobs and paste them into the chat.
 
-## 4. Make your folder
+For each job, Claude either:
+- **skips it with one line saying why**, e.g. `Acme: pass, requires Secret clearance`,
+  `Globex: pass, pay is less ($24/hr; relocation needs $30+)`, `Initech: pass, match is 72%`, or
+- **builds a tailored resume**, shows its match %, and saves it in `JobSearch/resumes/`.
 
-Create a folder called **JobSearch** on your Desktop, then in the Claude desktop app click
-**+ / Add folder** in the chat and pick it. Claude organizes it like this:
+---
 
+## Way 2: Git + Claude Code in a terminal
+
+### Step 1. Install the tools (one time)
+- **Git**: Mac: open Terminal and run `git --version` (it offers to install). Windows: install
+  from git-scm.com.
+- **Python 3.9+**: python.org/downloads (Mac usually has it: `python3 --version`).
+- **Claude Code**:
+  - Mac / Linux: `curl -fsSL https://claude.ai/install.sh | bash`
+  - Windows (PowerShell): `irm https://claude.ai/install.ps1 | iex`
+- **LibreOffice** (turns Word resumes into PDFs): libreoffice.org/download
+
+### Step 2. Download the project
 ```
-JobSearch/
-  profile/    your details (private)
-  masters/    your 3 master resumes
-  resumes/    every tailored resume
-  jds/        job descriptions you pasted
-  Job_Dashboard.html
+cd ~/Desktop
+git clone https://github.com/Nithin4517/resumekit.git
+cd resumekit
+pip3 install -e .
 ```
 
-## 5. Connect Gmail
+### Step 3. Make your JobSearch folder
+```
+mkdir -p ~/Desktop/JobSearch
+```
 
-In Claude: **Settings → Connectors → Gmail → Connect**. Claude uses it only to read
-application emails (confirmations, interviews, rejections) for your dashboard.
+### Step 4. Start Claude inside the project
+```
+claude
+```
+Sign in when asked. Claude reads this project's `CLAUDE.md` automatically.
 
-## 6. Find jobs and paste them
+### Step 5. Paste this
+```
+Set me up. My JobSearch folder is ~/Desktop/JobSearch
+```
+Then follow **Steps 5 to 9 of Way 1** (conditions questions, background, masters, Gmail, jobs).
 
-Go to **[jobright.ai](https://jobright.ai)**, LinkedIn or Indeed, open jobs you like, copy the
-**full job description**, and paste up to 5 at a time into the chat.
+### Getting updates later
+```
+cd ~/Desktop/resumekit
+git pull
+```
+Your own files are in `~/Desktop/JobSearch`, so pulling never touches them.
 
-For each job, Claude:
-- skips it if you already applied, it pays too little, it's somewhere you won't move, or it
-  needs something you don't have, and tells you why
-- builds a tailored resume for every job that fits and shows the match %
-- saves it to `JobSearch/resumes/`
+---
 
-## Every day after that
+## Every day after setup
 
 | Say this | What happens |
 |---|---|
-| *(paste job descriptions)* | Tailored resumes for the ones that fit |
-| **update dashboard** | Claude reads new application emails and updates your dashboard |
+| *(paste job descriptions)* | Screened against your conditions; resumes for the ones that fit |
+| **update dashboard** | Reads new application emails and updates your dashboard |
 | **applied to Acme, Systems Admin, Dallas** | Logs one application by hand |
+| **change my remote pay to $28/hr** | Updates a condition |
+| **I do have Ansible, 2 years at Acme** | Adds the skill and rebuilds any job it was missing from |
 
-Double-click **Job_Dashboard.html** to see every application, with interviews, assessments and
-rejections color-coded.
+Double-click **`JobSearch/Job_Dashboard.html`** to see every application, color-coded by status.
+
+## How Claude decides to skip a job (the 10 gates)
+
+1. Already applied / already built
+2. Job is outside the US
+3. Not your kind of role (e.g. sales, marketing)
+4. Field job when you want an office
+5. Not related to your degree (only for CPT/OPT)
+6. Pay below your floor (judged on the top of the posted range; no pay listed is never skipped)
+7. Needs a clearance, US citizenship, ITAR, or similar you don't have
+8. Excludes your visa type (e.g. "no OPT/CPT")
+9. A *required* license/cert/language you don't hold ("preferred" never counts)
+10. Resume would match the job less than your minimum (default 85%)
 
 ## Privacy
 
-Your details, resumes and dashboard stay in **your** folder. Nothing is uploaded to this
-GitHub project.
+Your answers, resumes and dashboard stay in **your** JobSearch folder. Nothing you enter is
+uploaded to this GitHub project.
+
+## Something went wrong?
+
+| Problem | Fix |
+|---|---|
+| Claude didn't ask the condition questions | Say: **"Ask me my job conditions first"** |
+| Claude can't save files | Make sure the `JobSearch` folder is added to the chat (Way 1, Step 3) |
+| New chat forgot everything | Add the `JobSearch` folder again and say **"continue my job search"**. Your answers are saved in `JobSearch/profile/` |
+| PDFs not created (Way 2) | Install LibreOffice and restart the terminal |

@@ -9,12 +9,15 @@ self-updating application dashboard.
 
 ## The workflow
 
+1. **Conditions first:** work permit, security clearance, pay floors (remote / near home /
+   relocation), location, remote and field-job preferences, minimum JD match %
 1. **Profile:** upload your resume, answer questions, or paste 5 jobs you want
 2. **3 master resumes:** main target, hybrid, safety lane
 3. **JobSearch folder:** everything saved on your computer
 4. **Gmail:** connected so applications are tracked automatically
 5. **Dashboard:** `Job_Dashboard.html`, color-coded by status
-6. **Paste job descriptions:** each is screened, then tailored, checked and saved
+6. **Paste job descriptions:** each goes through 10 screening gates; only jobs that pass get a
+   tailored, checked resume
 
 The Claude instructions live in [`CLAUDE.md`](CLAUDE.md) and [`.claude/skills/`](.claude/skills).
 
@@ -32,6 +35,9 @@ mistakes that slip in when you're on resume number forty:
 - **bold**: bold job-description keywords inside bullets (capped per bullet, so it stays readable)
 - **check**: inspect the rendered PDF for orphaned headers, split bullets, page overflow and
   an underfilled last page
+- **gate**: check a job description against your `conditions.yaml`: pay below your floor
+  (top of range, yearly converted at 2,080 h), and red-flag phrases for clearance, citizenship /
+  ITAR, no-sponsorship, OPT/CPT exclusions, internal-only and field roles
 - **screen**: before tailoring, check whether you've already applied to that company, with
   rarity-ranked fuzzy matching so "Credit Union" doesn't flag every credit union
 
@@ -117,6 +123,15 @@ python3 dashboard/dashboard.py add ~/Desktop/JobSearch/Job_Dashboard.html rows.j
 python3 dashboard/dashboard.py setstatus ~/Desktop/JobSearch/Job_Dashboard.html 12 "Interview - Nov 5 2pm"
 python3 dashboard/dashboard.py check ~/Desktop/JobSearch/Job_Dashboard.html "Acme Corp"
 python3 dashboard/dashboard.py stats ~/Desktop/JobSearch/Job_Dashboard.html
+```
+
+### Job conditions gate
+
+```bash
+cp examples/conditions.yaml my_conditions.yaml
+resumekit gate my_conditions.yaml jd.txt --where relocation   # or remote / near_home
+# FLAG clearance:  ...Must be able to obtain a Secret clearance...
+# PAY  SKIP: top of range $28.85/hr vs relocation floor $30.00/hr - pay is less
 ```
 
 ### Duplicate-application screen

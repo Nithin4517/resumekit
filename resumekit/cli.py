@@ -38,6 +38,13 @@ def main(argv=None) -> int:
     s.add_argument("--folder", help="folder of previously generated resumes")
     s.add_argument("--ignore", nargs="*", default=[], help="extra words to ignore (e.g. your name)")
 
+    g = sub.add_parser("gate", help="check a job description against your conditions (pay, clearance, visa...)")
+    g.add_argument("conditions", help="your conditions.yaml")
+    g.add_argument("jd", help="job description text file ('-' for stdin)")
+    g.add_argument("--where", choices=["remote", "near_home", "relocation"], required=True,
+                   help="remote job, on-site/hybrid near home, or one you'd have to move for")
+    g.add_argument("--pay", help="pay text, if you want to override what's found in the JD")
+
     a = ap.parse_args(argv)
 
     if a.cmd in ("build", "lint"):
@@ -78,6 +85,21 @@ def main(argv=None) -> int:
             print(f"=== {name} -> {r['verdict']}")
             for score, rarest, src, hit, key in r["hits"]:
                 print(f"    {src:5} {key}  <{'+'.join(hit)} | rarest df={rarest}>")
+        return 0
+    if a.cmd == "gate":
+        from .builder import load_file
+        from .conditions import pay_gate, scan_jd
+        cond = load_file(a.conditions)
+        text = sys.stdin.read() if a.jd == "-" else open(a.jd, encoding="utf-8").read()
+        flags = scan_jd(text, cond)
+        pay = pay_gate(cond, a.pay or text, a.where)
+        for gate, hits in flags.items():
+            print(f"FLAG {gate}:")
+            for h in hits:
+                print(f"    ...{h}...")
+        print(f"PAY  {pay['verdict']}: {pay['reason']}")
+        print("RESULT:", "SKIP (pay)" if pay["verdict"] == "SKIP" else
+              ("REVIEW flags above, skip if the posting makes them a condition of the offer" if flags else "CLEAR"))
         return 0
     return 2
 
