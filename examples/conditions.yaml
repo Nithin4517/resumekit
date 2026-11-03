@@ -47,6 +47,12 @@ target:
     - retail floor
   min_match_percent: 85           # don't build a resume below this JD match
 
+batch:                            # "give me first batch" / "give me next batch"
+  size: 5                         # resumes per batch
+  source: jobright                # jobs are found on jobright.ai
+  company_site_only: true         # skip postings whose Apply goes to LinkedIn or Indeed
+  max_age_hours: 24               # prefer postings from the last day
+
 never_claim:                      # skills/tools you DON'T have; never put on a resume
   - SCCM
   - Kubernetes

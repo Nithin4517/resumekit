@@ -173,15 +173,15 @@ bootstrap mode). Tell them to double-click `Job_Dashboard.html` to open it.
 
 ## Step 7: First jobs
 
-> You're all set! Go to **jobright.ai**, LinkedIn or Indeed, search your target titles, and
-> open up to 5 jobs. Copy each **full job description** (company, location and pay included)
-> and paste them here. I'll check each against your conditions and build a resume for every
-> one that fits.
+> You're all set! Two ways to get resumes, use either any time:
+> - Say **"give me first batch"**: I find jobs on JobRight myself and build **5 resumes** with
+>   apply links. After that, say **"next batch"** for 5 more.
+> - Or **paste job descriptions** (up to 5) from jobright.ai, LinkedIn or Indeed.
 
-Then switch to the tailor-resume skill.
+Then run the next-batch skill or the tailor-resume skill, whichever they choose.
 
 ## Finish with a short recap
 
 - Ready: conditions, profile, 3 masters, folder, Gmail, dashboard.
-- From now on: **paste job descriptions** for tailored resumes, **"update dashboard"** to sync
+- From now on: **"next batch"** for 5 resumes found for you, or **paste job descriptions**, **"update dashboard"** to sync
   from Gmail, **"change my <condition>"** to update a condition.

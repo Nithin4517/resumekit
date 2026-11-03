@@ -16,8 +16,25 @@ self-updating application dashboard.
 4. **JobSearch folder:** everything saved on your computer
 5. **Gmail:** connected so applications are tracked automatically
 6. **Dashboard:** `Job_Dashboard.html` tracks every application ([details below](#-application-dashboard))
-7. **Paste job descriptions:** each goes through 10 screening gates; only jobs that pass get a
-   tailored, checked resume
+7. **Get resumes, two ways:**
+   - **Say "give me first batch"**, then **"next batch"**: Claude finds jobs on JobRight
+     itself and delivers **5 tailored resumes with apply links** each time
+   - **Or paste job descriptions** (up to 5 at once) from any job site
+
+   Either way, every job goes through 10 screening gates; only jobs that pass get a tailored,
+   checked resume.
+
+### Getting resumes: batch or paste
+
+| Say | What happens |
+|---|---|
+| **give me first batch** | Claude opens jobright.ai, searches your target titles, keeps only jobs that apply on the company's own site (not LinkedIn/Indeed), screens them against your conditions, and builds **5 resumes** at your minimum match % or higher. You get the PDFs plus an **apply link** for each, and a one-line reason for every job it skipped. |
+| **next batch** | 5 more. Claude remembers which jobs it already looked at (`batch_state.json`), rotates search titles so batches don't repeat, and builds any extra cleared job it "held" last time first. |
+| *(paste 1 to 5 job descriptions)* | Same screening and build, for jobs you picked yourself. |
+
+Batch size, source and filters are in `conditions.yaml → batch:`. Batches need a browser tool in
+Claude (Claude in Chrome or the desktop app's built-in browser); without one, Claude asks you to
+paste job descriptions instead.
 
 The Claude instructions live in [`CLAUDE.md`](CLAUDE.md) and [`.claude/skills/`](.claude/skills).
 

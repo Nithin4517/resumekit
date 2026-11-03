@@ -22,6 +22,7 @@ Only after `conditions.yaml` is saved and confirmed, continue with what they ask
 |---|---|
 | No `profile/conditions.yaml` yet, or they say "start", "set me up", "help me apply" | `.claude/skills/job-search-setup/SKILL.md` |
 | They paste job descriptions or links, or say "tailor", "build resume" | `.claude/skills/tailor-resume/SKILL.md` |
+| They say "give me first batch", "next batch", "find me jobs" | `.claude/skills/next-batch/SKILL.md` |
 | They say "update dashboard", "sync my applications", "applied to X" | `.claude/skills/update-dashboard/SKILL.md` |
 | They say "change my <pay / location / clearance / ...>" | edit `profile/conditions.yaml`, confirm in one line |
 

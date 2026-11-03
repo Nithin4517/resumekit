@@ -62,11 +62,22 @@ tell Claude anything wrong. Every future resume is built from these.
 ### Step 8. Connect Gmail (optional but recommended)
 In Claude: **Settings → Connectors → Gmail → Connect**, sign in with the email you apply from.
 
-### Step 9. Paste jobs
-Go to **jobright.ai**, LinkedIn or Indeed. Copy the **full job description** (with company,
-location and pay) of up to 5 jobs and paste them into the chat.
+### Step 9. Get your resumes (pick either way, any time)
 
-For each job, Claude either:
+**Way A: let Claude find the jobs.** Type:
+```
+give me first batch
+```
+Claude searches **jobright.ai** for your target titles, keeps only jobs that apply on the
+company's own website, checks them against your conditions, and gives you **5 resumes plus an
+apply link for each**. When you've applied, type **`next batch`** for 5 more. It never repeats
+a job. (This needs Claude's browser: the Claude in Chrome extension or the desktop app's
+built-in browser. Claude tells you if it can't open one.)
+
+**Way B: pick jobs yourself.** Go to **jobright.ai**, LinkedIn or Indeed, copy the **full job
+description** (with company, location and pay) of up to 5 jobs and paste them into the chat.
+
+Either way, for each job Claude either:
 - **skips it with one line saying why**, e.g. `Acme: pass, requires Secret clearance`,
   `Globex: pass, pay is less ($24/hr; relocation needs $30+)`, `Initech: pass, match is 72%`, or
 - **builds a tailored resume**, shows its match %, and saves it in `JobSearch/resumes/`.
@@ -122,6 +133,7 @@ Your own files are in `~/Desktop/JobSearch`, so pulling never touches them.
 
 | Say this | What happens |
 |---|---|
+| **give me first batch** / **next batch** | Claude finds jobs on JobRight and builds 5 resumes with apply links |
 | *(paste job descriptions)* | Screened against your conditions; resumes for the ones that fit |
 | **update dashboard** | Reads new application emails and updates your dashboard |
 | **applied to Acme, Systems Admin, Dallas** | Logs one application by hand |

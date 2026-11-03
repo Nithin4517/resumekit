@@ -18,4 +18,5 @@ jds/
 Job_Dashboard*.html
 !dashboard/Job_Dashboard.html
 dashboard_sync_checkpoint.json
+batch_state.json
 *.bak

@@ -3,6 +3,15 @@
 Every change to the workflow is logged here, newest first, so anyone who pulls the repo can see
 what changed and why.
 
+## 0.3.0 (2026-11-03)
+
+**"give me first batch" / "next batch".** New `next-batch` skill: Claude finds jobs on
+JobRight itself (company-site apply only, newest first, search titles rotated from your target
+lanes), runs the same 10 gates and match %, and delivers 5 resumes plus apply links. Extra
+cleared jobs are held for the next batch; `batch_state.json` stops repeats. Settings live under
+`batch:` in `conditions.yaml`. README, GETTING_STARTED and the setup skill show both ways to get
+resumes: ask for a batch, or paste job descriptions.
+
 ## 0.2.1 (2026-11-03)
 
 README and GETTING_STARTED now explain the application dashboard: what's on it, status colors,
