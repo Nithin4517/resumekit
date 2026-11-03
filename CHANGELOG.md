@@ -3,6 +3,11 @@
 Every change to the workflow is logged here, newest first, so anyone who pulls the repo can see
 what changed and why.
 
+## 0.2.1 (2026-11-03)
+
+README and GETTING_STARTED now explain the application dashboard: what's on it, status colors,
+how "update dashboard" syncs from Gmail with a checkpoint, and the dashboard commands.
+
 ## 0.2.0 (2026-11-03)
 
 **Conditions are asked first.** A new person is now asked their job conditions before any

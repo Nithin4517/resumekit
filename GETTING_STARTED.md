@@ -130,6 +130,21 @@ Your own files are in `~/Desktop/JobSearch`, so pulling never touches them.
 
 Double-click **`JobSearch/Job_Dashboard.html`** to see every application, color-coded by status.
 
+## Your dashboard
+
+**`JobSearch/Job_Dashboard.html`** is your list of every job you applied to. Double-click it to
+open it in your browser.
+
+![Example dashboard](docs/dashboard.png)
+
+- The **tiles at the top** count your applications by status. Click one to filter.
+- **Grey** = applied, waiting. **Green** = interview. **Orange** = assessment/test.
+  **Red** = you need to do something. **Purple** = offer. **Light grey** = rejected.
+- **"open"** jumps to that job's email in Gmail.
+- Say **"update dashboard"** any time (once a day is plenty). Claude reads only the new
+  emails since last time and updates it. It also tells you about interview times and deadlines.
+- No Gmail? Say **"applied to Acme, Systems Admin, Dallas"** after each application.
+
 ## How Claude decides to skip a job (the 10 gates)
 
 1. Already applied / already built

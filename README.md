@@ -11,17 +11,76 @@ self-updating application dashboard.
 
 1. **Conditions first:** work permit, security clearance, pay floors (remote / near home /
    relocation), location, remote and field-job preferences, minimum JD match %
-1. **Profile:** upload your resume, answer questions, or paste 5 jobs you want
-2. **3 master resumes:** main target, hybrid, safety lane
-3. **JobSearch folder:** everything saved on your computer
-4. **Gmail:** connected so applications are tracked automatically
-5. **Dashboard:** `Job_Dashboard.html`, color-coded by status
-6. **Paste job descriptions:** each goes through 10 screening gates; only jobs that pass get a
+2. **Profile:** upload your resume, answer questions, or paste 5 jobs you want
+3. **3 master resumes:** main target, hybrid, safety lane
+4. **JobSearch folder:** everything saved on your computer
+5. **Gmail:** connected so applications are tracked automatically
+6. **Dashboard:** `Job_Dashboard.html` tracks every application ([details below](#-application-dashboard))
+7. **Paste job descriptions:** each goes through 10 screening gates; only jobs that pass get a
    tailored, checked resume
 
 The Claude instructions live in [`CLAUDE.md`](CLAUDE.md) and [`.claude/skills/`](.claude/skills).
 
+## 📊 Application dashboard
+
+Every job you apply to lands in one page, **`JobSearch/Job_Dashboard.html`**, on your own
+computer. Double-click it to open it in any browser. No account, no server, no install.
+
 ![Example dashboard](docs/dashboard.png)
+
+### What's on it
+
+- **Count tiles** across the top: All, Pending, Interview, Assessment, Action Required, Offer,
+  Rejected. Click a tile to show only those applications.
+- **Search box:** type a company, role or city.
+- **Time filter:** all time, or the last 7 / 30 / 90 days.
+- **Table:** number, date applied, role, company, location, status. Click any column header
+  to sort.
+- **Email link:** "open" jumps straight to that job's email thread in Gmail.
+- **Light and dark mode** follow your computer's setting.
+
+### Status colors
+
+| Status | Color | Means |
+|---|---|---|
+| Pending (Application Confirmed Sent) | grey | Applied, no reply yet |
+| Interview - *date/time* | green | Interview invite received |
+| Assessment - *what* | orange | Test, skills check or assignment to do |
+| Action Required - *what* | red | Something for you to do: a form, availability, documents |
+| Offer | purple | Offer received |
+| Rejected | light grey | Not moving forward (the dashboard remembers if you'd reached the interview stage) |
+
+### How it stays up to date
+
+You never edit it by hand. Just tell Claude:
+
+| Say | Claude does |
+|---|---|
+| **update dashboard** | Reads only the **new** Gmail since the last sync (application confirmations, interview invites, assessments, rejections, offers), adds new rows and updates statuses |
+| **applied to Acme, Systems Admin, Dallas** | Adds one row by hand (no Gmail needed) |
+| *(paste a job description)* | Checks the dashboard first, so you're never sent a resume for a company you already applied to |
+
+A small file next to it, `dashboard_sync_checkpoint.json`, remembers where the last Gmail sync
+stopped, so each update is fast and nothing is counted twice. The first sync looks back 30 days.
+Every change keeps a `.bak` backup beside the dashboard.
+
+Claude also points out anything urgent after each sync (interview times, assessment
+deadlines) and warns you about scam signs such as requests for money, bank details or
+check deposits.
+
+### Dashboard commands (what Claude runs for you)
+
+```bash
+python3 dashboard/dashboard.py init ~/Desktop/JobSearch                       # create a blank dashboard
+python3 dashboard/dashboard.py add ~/Desktop/JobSearch/Job_Dashboard.html rows.json
+python3 dashboard/dashboard.py setstatus ~/Desktop/JobSearch/Job_Dashboard.html 12 "Interview - Nov 5 2pm" --gmail <threadId>
+python3 dashboard/dashboard.py check ~/Desktop/JobSearch/Job_Dashboard.html "Acme Corp"   # applied already?
+python3 dashboard/dashboard.py stats ~/Desktop/JobSearch/Job_Dashboard.html               # counts by status
+python3 dashboard/dashboard.py export ~/Desktop/JobSearch/Job_Dashboard.html apps.csv     # to a spreadsheet
+```
+
+`rows.json` is a list like
+`[{"date": "2026-11-02", "role": "Systems Administrator", "company": "Acme Corp", "location": "Dallas, TX"}]`.
 
 ## The toolkit
 
@@ -113,16 +172,6 @@ require_past_tense: true             # roles whose dates don't say "Present"
 
 ```bash
 resumekit bold out/Resume_Acme.docx "ServiceNow" "Intune" "PowerShell" --max 3
-```
-
-### Application dashboard
-
-```bash
-python3 dashboard/dashboard.py init ~/Desktop/JobSearch
-python3 dashboard/dashboard.py add ~/Desktop/JobSearch/Job_Dashboard.html rows.json
-python3 dashboard/dashboard.py setstatus ~/Desktop/JobSearch/Job_Dashboard.html 12 "Interview - Nov 5 2pm"
-python3 dashboard/dashboard.py check ~/Desktop/JobSearch/Job_Dashboard.html "Acme Corp"
-python3 dashboard/dashboard.py stats ~/Desktop/JobSearch/Job_Dashboard.html
 ```
 
 ### Job conditions gate
